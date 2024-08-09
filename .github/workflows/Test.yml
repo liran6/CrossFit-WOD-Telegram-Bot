@@ -1,0 +1,17 @@
+name: Test Schedule
+
+on:
+  schedule:
+    - cron: '*/1 * * * *'  # Every minute
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run a test
+        run: |
+          echo "Scheduled job is running"
