@@ -63,11 +63,57 @@ def fetch_wod_description(url):
     return formatted_text.strip()
 
 
+# def format_message(wod_text):
+#     """Format the WOD description into a Telegram-ready message."""
+#     logging.info("Formatting the WOD text for Telegram.")
+#     formatted_text = re.sub(r'\n\s*\n+', '\n\n', wod_text).strip()
+#     return f"🏋️‍♂️ *Workout of the Day*\n\n{formatted_text}\n\n💪 _Stay strong and crush it!_"
 def format_message(wod_text):
-    """Format the WOD description into a Telegram-ready message."""
-    logging.info("Formatting the WOD text for Telegram.")
-    formatted_text = re.sub(r'\n\s*\n+', '\n\n', wod_text).strip()
-    return f"🏋️‍♂️ *Workout of the Day*\n\n{formatted_text}\n\n💪 _Stay strong and crush it!_"
+    """Format the WOD description into a Telegram-ready message with improved formatting."""
+    logging.info("Formatting the WOD text for Telegram with improved formatting.")
+
+    # Define emojis for each section
+    section_emojis = {
+        "Strength": "💪",
+        "Metcon": "🏋️",
+        "Weightlifting": "🏋️‍♂️",
+        "Endurance": "🏃‍♂️",
+        "Part": "📊"
+    }
+
+    # Split the text into lines
+    lines = wod_text.split('\n')
+
+    # Process each line
+    formatted_lines = []
+    for line in lines:
+        line = line.strip()
+        if line.endswith(':'):
+            # Add emoji to section headers and make them bold
+            for section, emoji in section_emojis.items():
+                if section in line:
+                    line = f"{emoji} *{line}*"
+                    break
+            else:
+                line = f"*{line}*"
+        elif line.startswith(('Part', 'AMRAP', 'EMOM')):
+            # Make Part headers and workout instructions italic
+            line = f"_{line}_"
+        elif line and not line[0].isdigit():
+            # Add bullet points to non-numeric lines
+            line = f"• {line}"
+
+        formatted_lines.append(line)
+
+    # Join the lines back together
+    formatted_text = '\n'.join(formatted_lines)
+
+    # Remove excessive newlines and add section separators
+    formatted_text = re.sub(r'\n\s*\n+', '\n\n', formatted_text).strip()
+    formatted_text = formatted_text.replace('CrossFit WOD:', '*CrossFit WOD:*\n---')
+    formatted_text = formatted_text.replace('Weightlifting:', '---\n🏋️‍♂️ *Weightlifting:*')
+
+    return f"🏋️‍♂️ *Workout of the Day*\n\n{formatted_text}\n\n---\n💪 _Stay strong and crush it!_"
 
 
 def send_telegram_message(message):
