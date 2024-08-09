@@ -1,9 +1,9 @@
-name: Schedule WOD Fetcher
+name: Schedule WOD releaser
 
 on:
   schedule:
     # Run at 6 AM UTC every day
-    - cron: '*/1 * * * *'
+    - cron: '5 14 * * *'
   workflow_dispatch: # Allows manual trigger of the workflow
 
 jobs:
