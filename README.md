@@ -32,7 +32,7 @@ GitHub Actions will automatically run the script every day.
 
 Here's how the formatted message looks in Telegram:
 
-![Sample Telegram Message](https://imgur.com/a/8APatM8)
+![Sample Telegram Message](https://imgur.com/a/8APatM8.png)
 
 ## 📈 Future Improvements
 
