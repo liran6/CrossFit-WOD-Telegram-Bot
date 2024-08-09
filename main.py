@@ -2,7 +2,6 @@ import os
 import logging
 import requests
 from bs4 import BeautifulSoup
-from twilio.rest import Client
 import datetime
 import re
 
