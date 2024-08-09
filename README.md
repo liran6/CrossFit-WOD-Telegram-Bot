@@ -1,6 +1,6 @@
 # 🏋️‍♂️ CrossFit WOD Telegram Bot
 
-![CrossFit Logo](https://i.imgur.com/pXugrn6.png)
+![CrossFit Logo]([https://i.imgur.com/pXugrn6.png](https://www.kisacoresearch.com/sites/default/files/logos/crossfit-llc-logo.png))
 
 This project automatically fetches the Workout of the Day (WOD) from a CrossFit website and posts it to a Telegram channel.
 
