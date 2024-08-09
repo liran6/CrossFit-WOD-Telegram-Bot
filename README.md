@@ -6,7 +6,7 @@ This project automatically fetches the Workout of the Day (WOD) from a CrossFit 
 
 ## 📋 Features
 
-- 🕒 Runs every 5 minutes via GitHub Actions
+- 🕒 Runs every day via GitHub Actions
 - 🌐 Fetches the latest WOD from [CrossFit Panda](https://wods.crossfitpanda.com/)
 - 📱 Posts formatted workouts to a Telegram channel
 - 🔄 Avoids duplicate posts by tracking the last sent date
@@ -26,13 +26,13 @@ This project automatically fetches the Workout of the Day (WOD) from a CrossFit 
 4. Modify the `TELEGRAM_CHANNEL_ID` in the script to match your channel
 5. Push the changes to GitHub
 
-GitHub Actions will automatically run the script every 5 minutes.
+GitHub Actions will automatically run the script every day.
 
 ## 📊 Sample Output
 
 Here's how the formatted message looks in Telegram:
 
-![Sample Telegram Message](https://i.imgur.com/XyZ1234.png)
+![Sample Telegram Message](https://imgur.com/a/8APatM8)
 
 ## 📈 Future Improvements
 
