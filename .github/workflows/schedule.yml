@@ -1,9 +1,9 @@
 name: Schedule WOD Fetcher
 
 on:
-  push:  # Trigger on push for testing
-    branches:
-      - main
+  schedule:
+    # Run at 6 AM UTC every day
+    - cron: '*/5 * * * *'
   workflow_dispatch: # Allows manual trigger of the workflow
 
 jobs:
