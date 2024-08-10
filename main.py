@@ -6,7 +6,7 @@ import datetime
 import re
 
 # Telegram Bot API token and Channel ID
-TELEGRAM_API_TOKEN = '7043980166:AAGRIntyMpJ_VIamGa8d3a35-A9zpvbEYtw'  # os.getenv('TELEGRAM_API_TOKEN')
+TELEGRAM_API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
 TELEGRAM_CHANNEL_ID = '@crossfitworkout'  # Replace with your channel name or chat ID
 
 
@@ -151,9 +151,11 @@ def main():
     wod_text = fetch_wod_description(url)
     message = format_message(wod_text)
     logging.info(f"Formatted message:\n{message}")
+
     print('-----------------------------------------------------------\n')
     print(message + '\n')
     print('-----------------------------------------------------------\n')
+
     # Send the message to the Telegram channel
     send_telegram_message(message)
 
