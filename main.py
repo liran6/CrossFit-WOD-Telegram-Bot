@@ -152,6 +152,7 @@ def main():
     message = format_message(wod_text)
     logging.info(f"Formatted message:\n{message}")
 
+
     print('-----------------------------------------------------------\n')
     print(message + '\n')
     print('-----------------------------------------------------------\n')
