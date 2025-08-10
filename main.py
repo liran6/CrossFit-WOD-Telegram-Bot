@@ -41,7 +41,7 @@ def fetch_wod_description(url):
     formatted_text = "CrossFit WOD:\n\n"
 
     # Define the sections
-    sections = ["Strength", "Metcon", "Endurance"]
+    sections = ["Strength","Strerngth","Skill", "Metcon", "Endurance", "CrossFit Strength"]
     logging.info("Formatting the WOD text into sections.")
 
     # Format the text by sections
@@ -76,6 +76,7 @@ def format_message(wod_text):
     section_emojis = {
         "Strength": "💪",
         "Metcon": "🏋️",
+        "Skill": "🏋️",
         "Weightlifting": "🏋️‍♂️",
         "Endurance": "🏃‍♂️",
         "Part": "📊"
