@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 import re
-
+#############################################################################################################
 # Telegram Bot API token and Channel ID
 TELEGRAM_API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
 TELEGRAM_CHANNEL_ID = '@crossfitworkout'  # Replace with your channel name or chat ID
