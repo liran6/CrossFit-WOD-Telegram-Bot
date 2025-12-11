@@ -41,7 +41,7 @@ def fetch_wod_description(url):
     formatted_text = "CrossFit WOD:\n\n"
 
     # Define the sections
-    sections = ["Strength","Strerngth","Skill", "Metcon", "Endurance", "CrossFit Strength"]
+    sections = ["Strength","Strerngth","Skill", "skill", "Weightlifting", "Metcon", "Endurance", "CrossFit Strength"]
     logging.info("Formatting the WOD text into sections.")
 
     # Format the text by sections
