@@ -4,7 +4,7 @@ import logging
 from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
-# from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 #from telegram import Bot
@@ -14,8 +14,8 @@ import datetime
 import re
 #############################################################################################################
 # Telegram Bot API token and Channel ID
-# load_dotenv() # Load environment variables from .env file
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
+#load_dotenv() # Load environment variables from .env file
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')  # Replace with your channel name or chat ID
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
