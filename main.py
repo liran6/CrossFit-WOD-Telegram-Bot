@@ -4,7 +4,7 @@ import logging
 from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from telegram import Bot
