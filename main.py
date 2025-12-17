@@ -19,8 +19,8 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')  # Replace with your channel name or chat ID
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-MAX_RETRIES = 5
-INITIAL_SLEEP_SEC = 5
+MAX_RETRIES = 9
+INITIAL_SLEEP_SEC = 6
 
 def resolve_wod_url(predicted_url):
     """
