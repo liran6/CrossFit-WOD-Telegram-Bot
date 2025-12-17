@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup
 # from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from telegram import Bot
-from telegram.error import TelegramError
+#from telegram import Bot
+#from telegram.error import TelegramError
 import time
 import datetime
 import re
