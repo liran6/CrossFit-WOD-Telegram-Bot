@@ -6,7 +6,6 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from google import genai
-# import google.generativeai as genai
 from google.genai import types
 from telegram import Bot
 from telegram.error import TelegramError
@@ -72,58 +71,6 @@ def resolve_wod_url(predicted_url):
         print(f"DEBUG: Fallback failed: {e}")
 
     return None
-
-# def fetch_wod_description(url):
-#     """Fetch the WOD description from the given URL and format the text."""
-#     try:
-#         logging.info(f"Attempting to fetch WOD description from {url}")
-#         response = requests.get(url)
-#         response.raise_for_status()  # Raise an error for bad responses
-#     except requests.RequestException as e:
-#         logging.error(f"HTTP request failed: {e}")
-#         return "Error fetching WOD description."
-
-#     soup = BeautifulSoup(response.text, 'html.parser')
-
-#     # Find the section tag containing the WOD
-#     section = soup.find('section', class_='gh-content gh-canvas is-body')
-#     if not section:
-#         logging.error("WOD section not found in the HTML.")
-#         return "WOD section not found."
-
-#     # Replace <br> tags with new lines
-#     logging.info("Replacing <br> tags with new lines.")
-#     for br in section.find_all('br'):
-#         br.replace_with('\n')
-
-#     # Get the text content
-#     wod_text = section.get_text(separator='\n').strip()
-#     logging.info(f"Fetched WOD text: {wod_text[:100]}...")  # Log a snippet of the text
-
-#     # Initialize the formatted text with the header
-#     formatted_text = "CrossFit WOD:\n\n"
-
-#     # Define the sections
-#     sections = ["Strength","Strerngth","Skill", "skill", "Weightlifting", "Metcon", "Endurance", "CrossFit Strength"]
-#     logging.info("Formatting the WOD text into sections.")
-
-#     # Format the text by sections
-#     for section in sections:
-#         if section in wod_text:
-#             logging.info(f"Processing section: {section}")
-#             # Find the start of this section
-#             start = wod_text.find(section)
-#             # Find where the next section begins, to capture only the current section's text
-#             end = min([wod_text.find(sec, start + 1) for sec in sections if wod_text.find(sec, start + 1) != -1],
-#                       default=len(wod_text))
-#             # Extract and clean the section's text
-#             part = wod_text[start:end].replace(section + ":", "").strip()
-#             formatted_text += f"{section}:\n{part}\n\n"
-#         else:
-#             logging.warning(f"Section '{section}' not found in the WOD text.")
-
-#     logging.info("Finished formatting the WOD text.")
-#     return formatted_text.strip()
 
 def fetch_latest_wod(url: str) -> str or None: # pyright: ignore[reportInvalidTypeForm]
     """
@@ -198,117 +145,7 @@ def fetch_latest_wod(url: str) -> str or None: # pyright: ignore[reportInvalidTy
 
     return f"🏋️‍♂️ *Workout of the Day*\n\n{formatted_text}\n\n---\n💪 _Stay strong and crush it!_"
 
-# def analyze_and_structure_wod(raw_wod_text: str) -> list or None: # pyright: ignore[reportInvalidTypeForm]
-#     """
-#     Analyzes the raw text using the Gemini API and returns structured JSON data
-#     as a list of objects, preserving the original section titles.
-#     """
-#     if not GEMINI_API_KEY:
-#         print("GEMINI_API_KEY is missing. Cannot analyze content.")
-#         return None
-
-#     try:
-#         client = genai.Client(api_key=GEMINI_API_KEY)
-
-#         # Define the prompt to instruct the LLM on the extraction task
-#         prompt = f"""
-#         You are an assistant for analyzing a Daily Workout (WOD) from a blog.
-
-#         The raw text of the workout is:
-#         ---
-#         {raw_wod_text}
-#         ---
-
-#         Please extract the workout sections. Do not assume fixed categories.
-#         For each section found (e.g., Strength, Metcon, Endurance, Skill, Warmup, etc.),
-#         you must extract its exact title and its content.
-
-#         Return the data in JSON format ONLY, structured as a list of objects:
-#         [
-#           {{"Title": "Original Section Name 1", "Content": "Section content 1"}},
-#           {{"Title": "Original Section Name 2", "Content": "Section content 2"}},
-#           ...
-#         ]
-
-#         - Ensure the 'Title' field uses the exact wording found in the raw text (e.g., 'Strength:', 'Skill', 'W.O.D').
-#         - The 'Content' field must contain the complete description of that workout section.
-#         """
-
-#         # Generate content with JSON output configuration
-#         response = client.models.generate_content(
-#             model='gemini-2.5-flash',
-#             contents=prompt,
-#             config=types.GenerateContentConfig(
-#                 response_mime_type="application/json",
-#             ),
-#         )
-
-#         # The model returns a JSON string; convert it to a Python list
-#         return json.loads(response.text)
-
-#     except Exception as e:
-#         print(f"Error during analysis with Gemini: {e}")
-#         return None
-
-# # def analyze_and_structure_wod(raw_wod_text: str) -> list or None:
-#     """
-#     Analyzes the raw text using the Gemini API and returns structured JSON data
-#     as a list of objects, with a robust retry mechanism for 503 (overload) errors.
-#     """
-#     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-#     if not GEMINI_API_KEY:
-#         print("GEMINI_API_KEY is missing. Cannot analyze content.")
-#         return None
-
-#     client = genai.Client(api_key=GEMINI_API_KEY)
-
-#     # Define the prompt to instruct the LLM on the extraction task
-#     # (Assuming your prompt definition is here)
-#     prompt = f"""
-#     You are an assistant for analyzing a Daily Workout (WOD) from a blog.
-#     ... (rest of your prompt) ...
-#     """
-
-#     # Loop for retries (Exponential Backoff)
-#     for attempt in range(MAX_RETRIES):
-#         try:
-#             # Attempt to execute the API call
-#             response = client.models.generate_content(
-#                 model='gemini-2.5-flash',
-#                 contents=prompt,
-#                 config=types.GenerateContentConfig(
-#                     response_mime_type="application/json",
-#                 ),
-#             )
-
-#             # If successful, return the result and exit the function
-#             return json.loads(response.text)
-
-#         except Exception as e:
-#             error_message = str(e)
-
-#             # Check for overload error (503 UNAVAILABLE)
-#             if '503 UNAVAILABLE' in error_message or 'The model is overloaded' in error_message:
-
-#                 if attempt < MAX_RETRIES - 1:
-#                     # Calculate sleep time: initial * (2^attempt)
-#                     sleep_time = INITIAL_SLEEP_SEC * (2 ** attempt)
-#                     print(f"Gemini model overloaded (503). Attempt {attempt + 1}/{MAX_RETRIES}. Retrying in {sleep_time} seconds...")
-#                     time.sleep(sleep_time)
-#                 else:
-#                     # Final attempt failed
-#                     print(f"Gemini model overloaded. Maximum retries ({MAX_RETRIES}) exceeded.")
-#                     print(f"Final error: {e}")
-#                     return None
-#             else:
-#                 # Handle all other unrecoverable errors (e.g., 400 Bad Request/Invalid Key)
-#                 print(f"Unrecoverable error during analysis with Gemini: {e}")
-#                 return None
-
-#     return None
-
-def analyze_and_structure_wod(raw_wod_text: str) -> list or None:
+def analyze_and_structure_wod(raw_wod_text: str) -> list or None:# pyright: ignore[reportInvalidTypeForm]
     """
     Analyzes the raw workout text using the Gemini API.
 
@@ -392,78 +229,6 @@ def analyze_and_structure_wod(raw_wod_text: str) -> list or None:
 
     return None # Should not be reached if logic is followed, but included for safety.
 
-# def format_telegram_message(parsed_wod: list) -> str:
-
-# def format_telegram_message(parsed_wod: list) -> str: #markdown version
-#     """
-#     Formats the workout data into a readable and visually appealing message
-#     using Markdown and emojis, based on dynamic section titles.
-#     (Updated to preserve all single line breaks within content for better readability).
-#     """
-#     EMOJIS = {
-#         "strength": "🏋️",
-#         "weightlifting": "🏋️‍♂️",
-#         "metcon": "⏱️",
-#         "endurance": "🏃‍♂️",
-#         "wod": "🔥",
-#         "skill": "🎯",
-#         "warmup": "🤸",
-#         "cooldown": "🧘",
-#     }
-
-#     # Attractive main header
-#     message = "💥 **W.O.D. The Daily Workout has Arrived!** 💥\n"
-#     message += "🗓️ Have a great and powerful training day!\n\n"
-#     message += "---" * 10 + "\n\n"
-
-#     for section in parsed_wod:
-#         title = section.get("Title", "Untitled Section").strip()
-#         content = section.get("Content", "").strip()
-
-#         if content:
-#             # 1. Determine emoji based on lowercased keywords
-#             title_lower = title.lower().replace('.', '').replace(':', '')
-#             emoji = "🔥" # Default emoji
-#             for key, emo in EMOJIS.items():
-#                 if key in title_lower:
-#                     emoji = emo
-#                     break
-
-#             # 2. Cleaning and formatting content:
-#             # We now rely on the LLM to provide the content with single newlines
-#             # between items, as it saw them on the original web page.
-#             # We only remove excess triple/quadruple newlines, keeping single/double.
-
-#             # This ensures that every distinct line/exercise (separated by \n) stays on its own line.
-#             clean_content = content.replace('\n\n\n', '\n\n')
-
-#             # 3. Creating the section title: Section title is followed by TWO newlines (one empty line)
-#             message += f"{emoji} **{title}:**\n\n"
-
-#             # 4. Adding the content. The content itself contains the required single newlines.
-#             # We add a trailing newline pair to ensure separation from the next section title.
-#             message += f"{clean_content}\n\n"
-
-#     message += "\n" + "---" * 10
-#     message += "\n\n**Enjoy the workout!** 🐼"
-
-#     return message
-
-# # def send_telegram_message(message):
-#     """Send a message to the Telegram channel."""
-#     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-#     payload = {
-#         'chat_id': TELEGRAM_CHAT_ID,
-#         'text': message,
-#         'parse_mode': 'Markdown'  # To format the message with bold, italic, etc.
-#     }
-#     try:
-#         response = requests.post(url, data=payload)
-#         response.raise_for_status()
-#         logging.info("Message sent successfully.")
-#     except requests.RequestException as e:
-#         logging.error(f"Failed to send message to Telegram: {e}")
-
 def format_telegram_message(parsed_wod: list) -> str: #html version
     """
     Formats the workout data into a readable message using HTML tags.
@@ -517,7 +282,7 @@ def format_telegram_message(parsed_wod: list) -> str: #html version
 
     return message
 
-def send_telegram_message(message: str): #Markdown version
+def send_telegram_message(message: str): #HTML version
     """
     Sends the formatted message to Telegram using the simple and reliable 'requests' library,
     which is confirmed to work with the user's setup.
