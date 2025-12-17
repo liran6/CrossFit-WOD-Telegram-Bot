@@ -15,7 +15,7 @@ import re
 #############################################################################################################
 # Telegram Bot API token and Channel ID
 # load_dotenv() # Load environment variables from .env file
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')  # Replace with your channel name or chat ID
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
